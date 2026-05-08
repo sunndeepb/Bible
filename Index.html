@@ -1,0 +1,1460 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>వాక్యం · Vākyam — Bilingual Bible</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Noto+Sans+Telugu:wght@300;400;500;600&family=Cinzel+Decorative:wght@400;700&family=Cinzel:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════════════
+   TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  --ink:         #1c120a;
+  --ink2:        #3d2810;
+  --ink3:        #6b4c30;
+  --parch:       #f7f1e4;
+  --parch2:      #efe6cc;
+  --parch3:      #e8dab8;
+  --gold:        #b8842a;
+  --gold2:       #d4a84b;
+  --gold3:       #f0ce84;
+  --crimson:     #7a1e2e;
+  --teal:        #155050;
+  --teal2:       #1e7070;
+  --teal3:       #4aadad;
+  --border:      #d0bc94;
+  --shadow:      rgba(28,18,10,.14);
+
+  --card-en:     #faf6ec;
+  --card-te:     #f0f5ec;
+  --xref-bg:     #e8f2f2;
+
+  --fs:          1;  /* font scale multiplier */
+  --dark: 0;
+}
+[data-dark="1"] {
+  --ink:         #f0e4cc;
+  --ink2:        #c8a878;
+  --ink3:        #8a7060;
+  --parch:       #0e0b07;
+  --parch2:      #161009;
+  --parch3:      #1e1610;
+  --gold:        #d4a84b;
+  --gold2:       #e8c070;
+  --gold3:       #f4d890;
+  --crimson:     #c04060;
+  --teal:        #3aadad;
+  --teal2:       #4acece;
+  --teal3:       #80e8e8;
+  --border:      #2e2418;
+  --shadow:      rgba(0,0,0,.4);
+  --card-en:     #15100a;
+  --card-te:     #0f1510;
+  --xref-bg:     #0a1818;
+}
+
+/* ═══════════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════════ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:'Cormorant Garamond',Georgia,serif;
+  font-size:18px;
+  background:var(--parch);
+  color:var(--ink);
+  min-height:100vh;
+  transition:background .3s,color .3s;
+  background-image:
+    radial-gradient(ellipse 80% 50% at 15% 0%,rgba(184,132,42,.07) 0%,transparent 70%),
+    radial-gradient(ellipse 60% 60% at 90% 100%,rgba(21,80,80,.06) 0%,transparent 70%);
+}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit}
+select{font-family:inherit;cursor:pointer}
+::-webkit-scrollbar{width:6px;height:6px}
+::-webkit-scrollbar-track{background:var(--parch2)}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:3px}
+
+/* ═══════════════════════════════════════════════════
+   LAYOUT SHELL
+═══════════════════════════════════════════════════ */
+#app{display:flex;flex-direction:column;min-height:100vh}
+
+/* ═══════════════════════════════════════════════════
+   TOPBAR
+═══════════════════════════════════════════════════ */
+#topbar{
+  position:sticky;top:0;z-index:200;
+  background:var(--ink2);
+  border-bottom:2px solid var(--gold);
+  display:flex;align-items:center;gap:12px;
+  padding:0 20px;
+  height:58px;
+  box-shadow:0 2px 20px var(--shadow);
+}
+.logo{
+  display:flex;flex-direction:column;line-height:1.1;margin-right:6px;
+}
+.logo-en{
+  font-family:'Cinzel Decorative',serif;
+  font-size:15px;color:var(--gold3);
+  letter-spacing:2px;white-space:nowrap;
+}
+.logo-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:11px;color:var(--parch2);opacity:.7;
+  letter-spacing:.5px;
+}
+.divider-v{width:1px;height:32px;background:var(--border);opacity:.3}
+
+/* Selects */
+.nav-sel{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(208,188,148,.25);
+  color:var(--parch);
+  padding:7px 30px 7px 12px;
+  border-radius:6px;
+  font-size:14px;
+  font-family:'Cinzel',serif;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23d4a84b'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 10px center;
+  background-size:8px;
+  max-width:200px;
+  transition:border-color .2s,background-color .2s;
+}
+.nav-sel:hover{border-color:var(--gold);background-color:rgba(255,255,255,.12)}
+.nav-sel option{background:#2a1c10;color:#f0e4cc}
+
+.nav-ch-sel{
+  width:90px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(208,188,148,.25);
+  color:var(--gold2);
+  padding:7px 24px 7px 12px;
+  border-radius:6px;
+  font-size:14px;
+  font-family:'Cinzel',serif;
+  font-weight:600;
+  appearance:none;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 10 6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%23d4a84b'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;
+  background-position:right 8px center;
+  background-size:8px;
+  transition:border-color .2s;
+}
+.nav-ch-sel:hover{border-color:var(--gold)}
+
+.spacer{flex:1}
+
+/* Icon buttons */
+.icon-btn{
+  width:38px;height:38px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:8px;
+  color:var(--parch);
+  font-size:18px;
+  transition:background .2s,color .2s;
+  position:relative;
+}
+.icon-btn:hover{background:rgba(255,255,255,.12);color:var(--gold3)}
+.icon-btn svg{width:20px;height:20px;fill:currentColor}
+.badge{
+  position:absolute;top:4px;right:4px;
+  width:8px;height:8px;border-radius:50%;
+  background:var(--crimson);
+  border:1.5px solid var(--ink2);
+}
+
+/* Search bar in topbar (collapses) */
+#search-wrap{
+  display:flex;align-items:center;
+  background:rgba(255,255,255,.1);
+  border:1px solid rgba(208,188,148,.3);
+  border-radius:8px;
+  overflow:hidden;
+  width:0;opacity:0;
+  transition:width .3s,opacity .3s;
+}
+#search-wrap.open{width:220px;opacity:1}
+#search-input{
+  background:none;border:none;outline:none;
+  color:var(--parch);font-size:14px;
+  padding:7px 10px;width:100%;
+  font-family:'Cormorant Garamond',serif;
+}
+#search-input::placeholder{color:rgba(240,228,204,.4)}
+#search-go{
+  padding:0 10px;height:36px;
+  color:var(--gold2);font-size:13px;
+  font-family:'Cinzel',serif;font-weight:600;
+  transition:color .2s;
+}
+#search-go:hover{color:var(--gold3)}
+
+/* ═══════════════════════════════════════════════════
+   MAIN CONTENT AREA
+═══════════════════════════════════════════════════ */
+#main{display:flex;flex:1;overflow:hidden;height:calc(100vh - 58px)}
+
+/* ── Sidebar ── */
+#sidebar{
+  width:280px;flex-shrink:0;
+  background:var(--parch2);
+  border-right:1px solid var(--border);
+  overflow-y:auto;
+  transition:transform .3s,width .3s;
+}
+#sidebar.collapsed{width:0;overflow:hidden}
+
+.sidebar-head{
+  padding:16px 16px 10px;
+  position:sticky;top:0;
+  background:var(--parch2);
+  border-bottom:1px solid var(--border);
+  z-index:10;
+}
+.sidebar-title{
+  font-family:'Cinzel',serif;
+  font-size:11px;font-weight:600;
+  letter-spacing:2px;color:var(--gold);
+  text-transform:uppercase;
+}
+.sidebar-sub{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:12px;color:var(--ink3);margin-top:2px;
+}
+
+.testament-label{
+  font-family:'Cinzel',serif;
+  font-size:10px;letter-spacing:2px;color:var(--gold);
+  font-weight:600;
+  padding:12px 16px 6px;
+  border-top:1px solid var(--border);
+  text-transform:uppercase;
+}
+.book-item{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:10px 16px;
+  border-bottom:1px solid rgba(208,188,148,.15);
+  cursor:pointer;
+  transition:background .15s;
+}
+.book-item:hover{background:rgba(184,132,42,.08)}
+.book-item.active{background:rgba(184,132,42,.15);border-left:3px solid var(--gold)}
+.book-en{font-size:15px;font-weight:500;color:var(--ink)}
+.book-te{font-family:'Noto Sans Telugu',sans-serif;font-size:12px;color:var(--ink3);margin-top:1px}
+.book-ch{font-family:'Cinzel',serif;font-size:11px;color:var(--gold);font-weight:600}
+
+/* ── Reader ── */
+#reader{
+  flex:1;
+  overflow-y:auto;
+  display:flex;flex-direction:column;
+}
+
+/* Chapter header */
+#ch-header{
+  text-align:center;
+  padding:40px 24px 28px;
+  border-bottom:1px solid var(--border);
+  position:relative;
+  background:linear-gradient(180deg,var(--parch3) 0%,transparent 100%);
+}
+#ch-header::after{
+  content:'✦';
+  position:absolute;bottom:-14px;left:50%;transform:translateX(-50%);
+  background:var(--parch);
+  color:var(--gold);padding:0 14px;font-size:14px;
+  transition:background .3s;
+}
+.ch-book-en{
+  font-family:'Cinzel',serif;
+  font-size:clamp(22px,4vw,38px);font-weight:500;
+  color:var(--crimson);letter-spacing:3px;
+  margin-bottom:4px;
+}
+.ch-book-te{
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:clamp(15px,2.5vw,22px);
+  color:var(--ink2);margin-bottom:8px;
+}
+.ch-num{
+  font-family:'Cinzel',serif;
+  font-size:12px;font-weight:600;
+  color:var(--gold);letter-spacing:4px;
+  text-transform:uppercase;
+}
+
+/* Verses list */
+#verses{
+  padding:24px 20px 60px;
+  max-width:820px;width:100%;
+  margin:0 auto;
+}
+
+/* Individual verse card */
+.vcard{
+  background:var(--card-en);
+  border-radius:10px;
+  margin-bottom:14px;
+  overflow:hidden;
+  box-shadow:0 2px 10px var(--shadow);
+  border-left:4px solid transparent;
+  transition:border-color .2s,box-shadow .2s,transform .15s;
+  animation:fadeUp .35s ease both;
+}
+.vcard:hover{box-shadow:0 4px 20px var(--shadow);transform:translateY(-1px)}
+.vcard.has-xref{border-left-color:var(--teal2)}
+.vcard.bookmarked{border-left-color:var(--gold)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+
+.vcard .en-row{
+  padding:14px 14px 10px;
+  display:flex;gap:10px;align-items:flex-start;
+  border-bottom:1px solid var(--border);
+  position:relative;
+}
+.vnum{
+  font-family:'Cinzel',serif;
+  font-size:11px;font-weight:600;
+  color:var(--gold);
+  min-width:28px;margin-top:4px;
+  flex-shrink:0;
+}
+.en-text{
+  flex:1;
+  font-size:calc(17px * var(--fs));
+  line-height:1.75;
+  color:var(--ink);
+  font-style:italic;
+  font-weight:300;
+}
+.en-text em{font-style:normal;font-weight:500}
+
+.vactions{
+  display:flex;flex-direction:column;gap:5px;
+  margin-left:8px;opacity:0;
+  transition:opacity .2s;
+}
+.vcard:hover .vactions{opacity:1}
+.vact{
+  width:28px;height:28px;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:6px;
+  color:var(--ink3);
+  font-size:14px;
+  transition:background .15s,color .15s;
+}
+.vact:hover{background:rgba(184,132,42,.15);color:var(--gold)}
+.vact.active{color:var(--gold)}
+.vact svg{width:15px;height:15px;fill:currentColor}
+
+.vcard .te-row{
+  padding:10px 14px 12px;
+  display:flex;gap:10px;align-items:flex-start;
+  background:var(--card-te);
+}
+.te-label{
+  font-family:'Cinzel',serif;
+  font-size:10px;font-weight:700;
+  color:var(--teal2);
+  min-width:28px;margin-top:4px;
+  flex-shrink:0;
+}
+.te-text{
+  flex:1;
+  font-family:'Noto Sans Telugu',sans-serif;
+  font-size:calc(16px * var(--fs));
+  line-height:1.85;
+  color:var(--ink2);
+}
+
+/* Highlight overlay */
+.vcard.hl-yellow .en-row,.vcard.hl-yellow .te-row{background:rgba(255,220,80,.18)}
+.vcard.hl-green  .en-row,.vcard.hl-green  .te-row{background:rgba(80,200,100,.14)}
+.vcard.hl-blue   .en-row,.vcard.hl-blue   .te-row{background:rgba(80,160,220,.12)}
+.vcard.hl-pink   .en-row,.vcard.hl-pink   .te-row{background:rgba(240,100,140,.12)}
+
+/* Cross-reference row */
+.xref-row{
+  padding:8px 14px 10px 52px;
+  background:var(--xref-bg);
+  border-top:1px dashed var(--border);
+  display:flex;flex-wrap:wrap;gap:6px;align-items:center;
+}
+.xref-lbl{
+  font-family:'Cinzel',serif;
+  font-size:10px;font-weight:700;
+  color:var(--teal);letter-spacing:1px;
+  text-transform:uppercase;margin-right:2px;
+}
+.xref-tag{
+  display:inline-flex;align-items:center;gap:4px;
+  background:var(--teal);
+  color:#fff;
+  font-family:'Cinzel',serif;
+  font-size:10px;
+  padding:3px 10px;border-radius:20px;
+  cursor:pointer;
+  transition:background .15s,transform .1s;
+}
+.xref-tag:hover{background:var(--teal2);transform:scale(1.04)}
+
+/* ═══════════════════════════════════════════════════
+   CHAPTER NAV
+═══════════════════════════════════════════════════ */
+#ch-nav{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:16px 20px;
+  border-top:1px solid var(--border);
+  background:var(--parch2);
+  max-width:820px;width:100%;
+  margin:0 auto;
+  border-radius:0;
+}
+.ch-nav-btn{
+  display:flex;align-items:center;gap:8px;
+  color:var(--ink2);
+  font-family:'Cinzel',serif;
+  font-size:13px;
+  padding:8px 16px;border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--parch);
+  transition:all .2s;
+}
+.ch-nav-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(184,132,42,.07)}
+.ch-nav-btn svg{width:16px;height:16px;fill:currentColor}
+.ch-nav-mid{
+  font-family:'Cinzel',serif;
+  font-size:12px;color:var(--ink3);
+  letter-spacing:1px;text-align:center;
+}
+
+/* ═══════════════════════════════════════════════════
+   LOADING / EMPTY STATES
+═══════════════════════════════════════════════════ */
+#loading{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  flex:1;padding:60px 24px;gap:16px;
+  color:var(--ink3);
+}
+#loading.show{display:flex}
+.spinner{
+  width:40px;height:40px;
+  border:3px solid var(--border);
+  border-top-color:var(--gold);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-text{font-size:18px;font-style:italic;color:var(--ink3)}
+
+#error-state{
+  display:none;
+  flex-direction:column;align-items:center;justify-content:center;
+  flex:1;padding:60px 24px;gap:12px;text-align:center;
+}
+#error-state.show{display:flex}
+.error-icon{font-size:48px;margin-bottom:8px}
+.error-msg{font-size:18px;color:var(--crimson)}
+.retry-btn{
+  margin-top:8px;
+  background:var(--gold);color:#fff;
+  padding:10px 28px;border-radius:8px;
+  font-family:'Cinzel',serif;font-size:14px;font-weight:600;
+  transition:background .2s;
+}
+.retry-btn:hover{background:var(--gold2)}
+
+/* ═══════════════════════════════════════════════════
+   MODALS & OVERLAYS
+═══════════════════════════════════════════════════ */
+.overlay{
+  position:fixed;inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:500;
+  display:none;
+  align-items:center;justify-content:center;
+  backdrop-filter:blur(2px);
+  animation:fadeIn .2s;
+}
+.overlay.open{display:flex}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+
+/* Cross-ref popup */
+#xref-modal{align-items:flex-end;justify-content:flex-end;padding:24px}
+.xref-popup{
+  background:var(--ink2);
+  border:1px solid var(--gold);
+  border-radius:14px;
+  padding:22px 24px;
+  width:min(420px,calc(100vw - 32px));
+  box-shadow:0 12px 48px rgba(0,0,0,.5);
+  animation:slideUp .25s ease;
+  position:relative;
+}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.xref-close{
+  position:absolute;top:12px;right:14px;
+  color:rgba(240,228,204,.5);font-size:20px;
+  transition:color .15s;
+}
+.xref-close:hover{color:var(--parch)}
+.xref-ref-title{
+  font-family:'Cinzel',serif;
+  font-size:13px;color:var(--gold3);
+  letter-spacing:1.5px;margin-bottom:3px;
+}
+.xref-ref-te{font-family:'Noto Sans Telugu',sans-serif;font-size:12px;color:rgba(240,228,204,.6);margin-bottom:12px}
+.xref-en{font-size:17px;line-height:1.65;color:var(--parch);font-style:italic;font-weight:300}
+.xref-te{font-family:'Noto Sans Telugu',sans-serif;font-size:15px;line-height:1.8;color:rgba(240,228,204,.75);margin-top:10px}
+.xref-nav-btn{
+  margin-top:16px;padding-top:14px;
+  border-top:1px solid rgba(208,188,148,.2);
+  display:flex;align-items:center;justify-content:flex-end;gap:6px;
+  color:var(--teal3);
+  font-family:'Cinzel',serif;font-size:12px;font-weight:600;
+  cursor:pointer;
+  transition:color .15s;
+}
+.xref-nav-btn:hover{color:var(--teal2)}
+
+/* Highlight picker */
+#hl-modal .modal-box{
+  background:var(--parch);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 24px;
+  width:280px;
+  box-shadow:0 8px 32px var(--shadow);
+  animation:slideUp .2s ease;
+}
+.hl-title{font-family:'Cinzel',serif;font-size:12px;color:var(--ink3);letter-spacing:1px;margin-bottom:14px}
+.hl-swatches{display:flex;gap:10px;flex-wrap:wrap}
+.hl-sw{width:36px;height:36px;border-radius:50%;cursor:pointer;transition:transform .15s,box-shadow .15s;border:2px solid transparent}
+.hl-sw:hover{transform:scale(1.15);box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.hl-sw.remove{background:#e8e0d0;display:flex;align-items:center;justify-content:center;font-size:18px;color:#888}
+
+/* Bookmarks panel */
+#bm-panel{
+  position:fixed;top:58px;right:0;bottom:0;
+  width:min(380px,100vw);
+  background:var(--parch);
+  border-left:1px solid var(--border);
+  z-index:300;
+  transform:translateX(100%);
+  transition:transform .3s ease;
+  overflow-y:auto;
+  box-shadow:-8px 0 32px var(--shadow);
+}
+#bm-panel.open{transform:translateX(0)}
+.panel-head{
+  padding:18px 20px 14px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--parch);z-index:1;
+}
+.panel-title{font-family:'Cinzel',serif;font-size:16px;color:var(--ink);font-weight:500}
+.panel-close{color:var(--ink3);font-size:22px;transition:color .15s}
+.panel-close:hover{color:var(--crimson)}
+.bm-empty{padding:40px 20px;text-align:center;color:var(--ink3);font-style:italic}
+.bm-item{
+  padding:16px 20px;
+  border-bottom:1px solid rgba(208,188,148,.2);
+  cursor:pointer;
+  transition:background .15s;
+  position:relative;
+}
+.bm-item:hover{background:rgba(184,132,42,.06)}
+.bm-ref{font-family:'Cinzel',serif;font-size:13px;color:var(--gold);font-weight:600;margin-bottom:4px}
+.bm-ref-te{font-family:'Noto Sans Telugu',sans-serif;font-size:11px;color:var(--ink3);margin-bottom:8px}
+.bm-text{font-size:14px;color:var(--ink2);line-height:1.55;font-style:italic;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.bm-date{font-size:11px;color:var(--ink3);margin-top:6px}
+.bm-del{position:absolute;top:14px;right:16px;color:#c44;font-size:16px;opacity:0;transition:opacity .15s}
+.bm-item:hover .bm-del{opacity:1}
+
+/* Settings panel */
+#settings-panel{
+  position:fixed;top:58px;right:0;bottom:0;
+  width:min(340px,100vw);
+  background:var(--parch);
+  border-left:1px solid var(--border);
+  z-index:300;
+  transform:translateX(100%);
+  transition:transform .3s ease;
+  overflow-y:auto;
+  box-shadow:-8px 0 32px var(--shadow);
+}
+#settings-panel.open{transform:translateX(0)}
+.setting-row{
+  padding:16px 20px;
+  border-bottom:1px solid rgba(208,188,148,.15);
+  display:flex;align-items:center;gap:14px;
+}
+.setting-info{flex:1}
+.setting-label{font-size:15px;color:var(--ink);font-weight:500}
+.setting-sub{font-family:'Noto Sans Telugu',sans-serif;font-size:12px;color:var(--ink3);margin-top:2px}
+.toggle{
+  width:44px;height:24px;border-radius:12px;
+  background:var(--border);
+  position:relative;transition:background .25s;cursor:pointer;
+  flex-shrink:0;
+}
+.toggle.on{background:var(--teal)}
+.toggle::after{
+  content:'';position:absolute;
+  width:18px;height:18px;border-radius:50%;
+  background:#fff;top:3px;left:3px;
+  transition:transform .25s;
+  box-shadow:0 1px 4px rgba(0,0,0,.2);
+}
+.toggle.on::after{transform:translateX(20px)}
+
+.font-scale-btns{display:flex;gap:6px;flex-wrap:wrap;padding:0 20px 16px}
+.fs-btn{
+  flex:1;padding:8px 4px;
+  border-radius:8px;
+  border:1px solid var(--border);
+  background:var(--parch2);
+  font-family:'Cinzel',serif;font-size:12px;
+  color:var(--ink2);text-align:center;
+  cursor:pointer;transition:all .15s;
+  min-width:44px;
+}
+.fs-btn.active,.fs-btn:hover{background:var(--gold);color:#fff;border-color:var(--gold)}
+
+.section-lbl{
+  font-family:'Cinzel',serif;font-size:10px;
+  font-weight:700;letter-spacing:2px;color:var(--gold);
+  padding:14px 20px 6px;
+  text-transform:uppercase;
+  border-top:1px solid var(--border);
+}
+
+/* Search results overlay */
+#search-results{
+  position:fixed;top:58px;left:0;right:0;bottom:0;
+  background:var(--parch);
+  z-index:250;
+  overflow-y:auto;
+  transform:translateY(-100%);opacity:0;
+  transition:transform .3s,opacity .3s;
+  pointer-events:none;
+}
+#search-results.open{transform:translateY(0);opacity:1;pointer-events:all}
+.sr-head{
+  padding:16px 20px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--parch);
+}
+.sr-title{font-family:'Cinzel',serif;font-size:15px;color:var(--ink)}
+.sr-list{padding:12px 20px 60px;max-width:760px;margin:0 auto}
+.sr-card{
+  padding:16px;
+  border-radius:10px;
+  background:var(--card-en);
+  margin-bottom:12px;
+  border-left:3px solid var(--teal);
+  cursor:pointer;
+  transition:box-shadow .15s,transform .1s;
+  box-shadow:0 1px 6px var(--shadow);
+}
+.sr-card:hover{box-shadow:0 4px 18px var(--shadow);transform:translateY(-1px)}
+.sr-ref{font-family:'Cinzel',serif;font-size:13px;color:var(--teal);font-weight:700;margin-bottom:6px}
+.sr-en{font-size:16px;color:var(--ink);line-height:1.6;font-style:italic;font-weight:300}
+.sr-te{font-family:'Noto Sans Telugu',sans-serif;font-size:14px;color:var(--ink3);margin-top:6px;line-height:1.7}
+mark{background:rgba(212,168,75,.35);color:inherit;border-radius:2px;padding:0 1px}
+.sr-empty{padding:60px 20px;text-align:center;color:var(--ink3);font-style:italic;font-size:18px}
+
+/* ═══════════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════════ */
+@media(max-width:760px){
+  #sidebar{position:fixed;top:58px;bottom:0;left:0;z-index:150;transform:translateX(-100%);transition:transform .3s}
+  #sidebar.mobile-open{transform:translateX(0)}
+  #sidebar.collapsed{transform:translateX(-100%);width:280px}
+  .logo-en{font-size:13px}
+  #ch-header{padding:24px 16px 20px}
+  #verses{padding:16px 12px 50px}
+  .en-text{font-size:calc(16px * var(--fs))}
+  .te-text{font-size:calc(15px * var(--fs))}
+}
+@media(max-width:480px){
+  #search-wrap.open{width:160px}
+}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- ══════════════ TOPBAR ══════════════ -->
+<div id="topbar">
+  <button class="icon-btn" id="sidebar-toggle" title="Books" onclick="toggleSidebar()">
+    <svg viewBox="0 0 24 24"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+  </button>
+
+  <div class="logo">
+    <span class="logo-en">VĀKYAM</span>
+    <span class="logo-te">వాక్యం</span>
+  </div>
+
+  <div class="divider-v"></div>
+
+  <select id="book-sel" class="nav-sel" onchange="onBookChange()"></select>
+  <select id="ch-sel" class="nav-ch-sel" onchange="onChapterChange()"></select>
+
+  <div class="spacer"></div>
+
+  <div id="search-wrap">
+    <input id="search-input" type="text" placeholder="Search verses…" onkeydown="if(event.key==='Enter')doSearch()">
+    <button id="search-go" onclick="doSearch()">Go</button>
+  </div>
+
+  <button class="icon-btn" id="search-toggle-btn" title="Search" onclick="toggleSearch()">
+    <svg viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+  </button>
+
+  <button class="icon-btn" id="bm-btn" title="Bookmarks" onclick="toggleBookmarks()">
+    <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+    <div class="badge" id="bm-badge" style="display:none"></div>
+  </button>
+
+  <button class="icon-btn" id="settings-btn" title="Settings" onclick="toggleSettings()">
+    <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l2.03-1.58a.49.49 0 0 0 .12-.61l-1.92-3.32a.488.488 0 0 0-.59-.22l-2.39.96a7.02 7.02 0 0 0-1.62-.94l-.36-2.54a.484.484 0 0 0-.48-.41h-3.84c-.24 0-.43.17-.47.41l-.36 2.54c-.59.24-1.13.57-1.62.94l-2.39-.96a.488.488 0 0 0-.59.22L2.74 8.87a.48.48 0 0 0 .12.61l2.03 1.58c-.05.3-.09.63-.09.94s.02.64.07.94l-2.03 1.58a.49.49 0 0 0-.12.61l1.92 3.32c.12.22.37.29.59.22l2.39-.96c.5.37 1.04.7 1.62.94l.36 2.54c.05.24.24.41.48.41h3.84c.24 0 .44-.17.47-.41l.36-2.54c.59-.24 1.13-.57 1.62-.94l2.39.96c.22.08.47 0 .59-.22l1.92-3.32c.12-.22.07-.47-.12-.61l-2.01-1.58zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z"/></svg>
+  </button>
+</div>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<div id="main">
+
+  <!-- Sidebar -->
+  <div id="sidebar">
+    <div class="sidebar-head">
+      <div class="sidebar-title">Books · పుస్తకాలు</div>
+      <div class="sidebar-sub">66 books · పాత & క్రొత్త నిబంధన</div>
+    </div>
+    <div id="book-list"></div>
+  </div>
+
+  <!-- Reader -->
+  <div id="reader">
+    <div id="ch-header">
+      <div class="ch-book-en" id="h-en"></div>
+      <div class="ch-book-te" id="h-te"></div>
+      <div class="ch-num" id="h-ch"></div>
+    </div>
+
+    <div id="loading">
+      <div class="spinner"></div>
+      <div class="loading-text" id="loading-text">Loading…</div>
+    </div>
+
+    <div id="error-state">
+      <div class="error-icon">📵</div>
+      <div class="error-msg" id="error-msg">Could not load verses.</div>
+      <button class="retry-btn" onclick="loadChapter()">Retry</button>
+    </div>
+
+    <div id="verses"></div>
+
+    <div id="ch-nav" style="display:none">
+      <button class="ch-nav-btn" onclick="navigate(-1)">
+        <svg viewBox="0 0 24 24"><path d="M15.41 16.59L10.83 12l4.58-4.59L14 6l-6 6 6 6z"/></svg>
+        Previous
+      </button>
+      <div class="ch-nav-mid" id="nav-label"></div>
+      <button class="ch-nav-btn" onclick="navigate(1)">
+        Next
+        <svg viewBox="0 0 24 24"><path d="M8.59 16.59L13.17 12 8.59 7.41 10 6l6 6-6 6z"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ CROSS-REF MODAL ══════════════ -->
+<div class="overlay" id="xref-modal" onclick="if(event.target===this)closeXref()">
+  <div class="xref-popup">
+    <button class="xref-close" onclick="closeXref()">✕</button>
+    <div class="xref-ref-title" id="xr-title"></div>
+    <div class="xref-ref-te" id="xr-te-label"></div>
+    <div class="xref-en" id="xr-en"><span class="spinner" style="width:20px;height:20px;border-width:2px"></span></div>
+    <div class="xref-te" id="xr-te"></div>
+    <div class="xref-nav-btn" id="xr-nav" onclick="navigateToXref()">
+      Navigate there →
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ HIGHLIGHT MODAL ══════════════ -->
+<div class="overlay" id="hl-modal" onclick="if(event.target===this)closeHl()">
+  <div class="modal-box">
+    <div class="hl-title">HIGHLIGHT COLOR · రంగు</div>
+    <div class="hl-swatches">
+      <div class="hl-sw" style="background:#ffd740" onclick="applyHl('yellow')" title="Yellow"></div>
+      <div class="hl-sw" style="background:#69f0ae" onclick="applyHl('green')" title="Green"></div>
+      <div class="hl-sw" style="background:#40c4ff" onclick="applyHl('blue')" title="Blue"></div>
+      <div class="hl-sw" style="background:#f48fb1" onclick="applyHl('pink')" title="Pink"></div>
+      <div class="hl-sw remove" onclick="applyHl(null)" title="Remove">✕</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════ BOOKMARKS PANEL ══════════════ -->
+<div id="bm-panel">
+  <div class="panel-head">
+    <div class="panel-title">Bookmarks · గుర్తులు</div>
+    <button class="panel-close" onclick="toggleBookmarks()">✕</button>
+  </div>
+  <div id="bm-list"></div>
+</div>
+
+<!-- ══════════════ SETTINGS PANEL ══════════════ -->
+<div id="settings-panel">
+  <div class="panel-head">
+    <div class="panel-title">Settings · అమరికలు</div>
+    <button class="panel-close" onclick="toggleSettings()">✕</button>
+  </div>
+
+  <div class="section-lbl">APPEARANCE</div>
+  <div class="setting-row">
+    <span style="font-size:20px">🌙</span>
+    <div class="setting-info">
+      <div class="setting-label">Night Mode</div>
+      <div class="setting-sub">రాత్రి మోడ్</div>
+    </div>
+    <div class="toggle" id="dark-toggle" onclick="toggleDark()"></div>
+  </div>
+
+  <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:10px">
+    <div style="display:flex;align-items:center;gap:14px;width:100%">
+      <span style="font-size:20px">Aa</span>
+      <div class="setting-info">
+        <div class="setting-label">Font Size</div>
+        <div class="setting-sub">అక్షరాల పరిమాణం</div>
+      </div>
+    </div>
+    <div class="font-scale-btns">
+      <button class="fs-btn" data-scale="0.85" onclick="setFS(0.85)">XS</button>
+      <button class="fs-btn active" data-scale="1" onclick="setFS(1)">S</button>
+      <button class="fs-btn" data-scale="1.15" onclick="setFS(1.15)">M</button>
+      <button class="fs-btn" data-scale="1.3" onclick="setFS(1.3)">L</button>
+      <button class="fs-btn" data-scale="1.5" onclick="setFS(1.5)">XL</button>
+    </div>
+    <div style="padding:0 0 8px;font-style:italic;font-size:calc(17px * var(--fs));color:var(--ink2)">
+      The Lord is my shepherd. — యెహోవా నా కాపరి
+    </div>
+  </div>
+
+  <div class="section-lbl">ABOUT</div>
+  <div class="setting-row" style="flex-direction:column;align-items:flex-start;gap:4px">
+    <div style="font-size:14px;color:var(--ink2);line-height:1.7">
+      📖 English — KJV via <a href="https://bible-api.com" target="_blank" style="color:var(--teal2)">bible-api.com</a><br>
+      🇮🇳 Telugu — BSI via <a href="https://bolls.life" target="_blank" style="color:var(--teal2)">bolls.life</a><br>
+      ⚡ Offline caching after first read<br>
+      ✦ OT↔NT cross-references included
+    </div>
+  </div>
+  <div style="text-align:center;padding:20px;font-size:13px;color:var(--ink3);font-style:italic">
+    వాక్యం v2.0 · Made with 🙏
+  </div>
+</div>
+
+<!-- ══════════════ SEARCH RESULTS ══════════════ -->
+<div id="search-results">
+  <div class="sr-head">
+    <div class="sr-title" id="sr-title">Search Results</div>
+    <button class="panel-close" onclick="closeSearchResults()">✕</button>
+  </div>
+  <div class="sr-list" id="sr-list"></div>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════
+// DATA
+// ═══════════════════════════════════════════════
+const BOOKS = [
+  {id:1, abbr:'Gen', en:'Genesis',          te:'ఆదికాండము',            ch:50,  t:'OT'},
+  {id:2, abbr:'Exo', en:'Exodus',           te:'నిర్గమకాండము',          ch:40,  t:'OT'},
+  {id:3, abbr:'Lev', en:'Leviticus',        te:'లేవీయకాండము',           ch:27,  t:'OT'},
+  {id:4, abbr:'Num', en:'Numbers',          te:'సంఖ్యాకాండము',          ch:36,  t:'OT'},
+  {id:5, abbr:'Deu', en:'Deuteronomy',      te:'ద్వితీయోపదేశకాండము',    ch:34,  t:'OT'},
+  {id:6, abbr:'Jos', en:'Joshua',           te:'యెహోషువ',               ch:24,  t:'OT'},
+  {id:7, abbr:'Jdg', en:'Judges',           te:'న్యాయాధిపతులు',          ch:21,  t:'OT'},
+  {id:8, abbr:'Rut', en:'Ruth',             te:'రూతు',                  ch:4,   t:'OT'},
+  {id:9, abbr:'1Sa', en:'1 Samuel',         te:'1 సమూయేలు',             ch:31,  t:'OT'},
+  {id:10,abbr:'2Sa', en:'2 Samuel',         te:'2 సమూయేలు',             ch:24,  t:'OT'},
+  {id:11,abbr:'1Ki', en:'1 Kings',          te:'1 రాజులు',               ch:22,  t:'OT'},
+  {id:12,abbr:'2Ki', en:'2 Kings',          te:'2 రాజులు',               ch:25,  t:'OT'},
+  {id:13,abbr:'1Ch', en:'1 Chronicles',     te:'1 దినవృత్తాంతములు',      ch:29,  t:'OT'},
+  {id:14,abbr:'2Ch', en:'2 Chronicles',     te:'2 దినవృత్తాంతములు',      ch:36,  t:'OT'},
+  {id:15,abbr:'Ezr', en:'Ezra',             te:'ఎజ్రా',                 ch:10,  t:'OT'},
+  {id:16,abbr:'Neh', en:'Nehemiah',         te:'నెహెమ్యా',               ch:13,  t:'OT'},
+  {id:17,abbr:'Est', en:'Esther',           te:'ఎస్తేరు',                ch:10,  t:'OT'},
+  {id:18,abbr:'Job', en:'Job',              te:'యోబు',                  ch:42,  t:'OT'},
+  {id:19,abbr:'Psa', en:'Psalms',           te:'కీర్తనలు',               ch:150, t:'OT'},
+  {id:20,abbr:'Pro', en:'Proverbs',         te:'సామెతలు',               ch:31,  t:'OT'},
+  {id:21,abbr:'Ecc', en:'Ecclesiastes',     te:'ప్రసంగి',                ch:12,  t:'OT'},
+  {id:22,abbr:'Sol', en:'Song of Solomon',  te:'పరమగీతము',              ch:8,   t:'OT'},
+  {id:23,abbr:'Isa', en:'Isaiah',           te:'యెషయా',                 ch:66,  t:'OT'},
+  {id:24,abbr:'Jer', en:'Jeremiah',         te:'యిర్మియా',               ch:52,  t:'OT'},
+  {id:25,abbr:'Lam', en:'Lamentations',     te:'విలాపవాక్యములు',         ch:5,   t:'OT'},
+  {id:26,abbr:'Ezk', en:'Ezekiel',          te:'యెహెజ్కేలు',             ch:48,  t:'OT'},
+  {id:27,abbr:'Dan', en:'Daniel',           te:'దానియేలు',               ch:12,  t:'OT'},
+  {id:28,abbr:'Hos', en:'Hosea',            te:'హోషేయ',                 ch:14,  t:'OT'},
+  {id:29,abbr:'Joe', en:'Joel',             te:'యోవేలు',                 ch:3,   t:'OT'},
+  {id:30,abbr:'Amo', en:'Amos',             te:'ఆమోసు',                 ch:9,   t:'OT'},
+  {id:31,abbr:'Oba', en:'Obadiah',          te:'ఓబద్యా',                 ch:1,   t:'OT'},
+  {id:32,abbr:'Jon', en:'Jonah',            te:'యోనా',                  ch:4,   t:'OT'},
+  {id:33,abbr:'Mic', en:'Micah',            te:'మీకా',                  ch:7,   t:'OT'},
+  {id:34,abbr:'Nah', en:'Nahum',            te:'నహూము',                 ch:3,   t:'OT'},
+  {id:35,abbr:'Hab', en:'Habakkuk',         te:'హబక్కూకు',               ch:3,   t:'OT'},
+  {id:36,abbr:'Zep', en:'Zephaniah',        te:'జెఫన్యా',                ch:3,   t:'OT'},
+  {id:37,abbr:'Hag', en:'Haggai',           te:'హగ్గయి',                 ch:2,   t:'OT'},
+  {id:38,abbr:'Zec', en:'Zechariah',        te:'జెకర్యా',                ch:14,  t:'OT'},
+  {id:39,abbr:'Mal', en:'Malachi',          te:'మలాకీ',                 ch:4,   t:'OT'},
+  {id:40,abbr:'Mat', en:'Matthew',          te:'మత్తయి',                ch:28,  t:'NT'},
+  {id:41,abbr:'Mar', en:'Mark',             te:'మార్కు',                 ch:16,  t:'NT'},
+  {id:42,abbr:'Luk', en:'Luke',             te:'లూకా',                  ch:24,  t:'NT'},
+  {id:43,abbr:'Joh', en:'John',             te:'యోహాను',                 ch:21,  t:'NT'},
+  {id:44,abbr:'Act', en:'Acts',             te:'అపొస్తలుల కార్యములు',    ch:28,  t:'NT'},
+  {id:45,abbr:'Rom', en:'Romans',           te:'రోమీయులకు',              ch:16,  t:'NT'},
+  {id:46,abbr:'1Co', en:'1 Corinthians',    te:'1 కొరింథీయులకు',          ch:16,  t:'NT'},
+  {id:47,abbr:'2Co', en:'2 Corinthians',    te:'2 కొరింథీయులకు',          ch:13,  t:'NT'},
+  {id:48,abbr:'Gal', en:'Galatians',        te:'గలతీయులకు',              ch:6,   t:'NT'},
+  {id:49,abbr:'Eph', en:'Ephesians',        te:'ఎఫెసీయులకు',             ch:6,   t:'NT'},
+  {id:50,abbr:'Php', en:'Philippians',      te:'ఫిలిప్పీయులకు',           ch:4,   t:'NT'},
+  {id:51,abbr:'Col', en:'Colossians',       te:'కొలొస్సయులకు',            ch:4,   t:'NT'},
+  {id:52,abbr:'1Th', en:'1 Thessalonians',  te:'1 థెస్సలొనీకయులకు',       ch:5,   t:'NT'},
+  {id:53,abbr:'2Th', en:'2 Thessalonians',  te:'2 థెస్సలొనీకయులకు',       ch:3,   t:'NT'},
+  {id:54,abbr:'1Ti', en:'1 Timothy',        te:'1 తిమోతికి',              ch:6,   t:'NT'},
+  {id:55,abbr:'2Ti', en:'2 Timothy',        te:'2 తిమోతికి',              ch:4,   t:'NT'},
+  {id:56,abbr:'Tit', en:'Titus',            te:'తీతుకు',                 ch:3,   t:'NT'},
+  {id:57,abbr:'Phm', en:'Philemon',         te:'ఫిలేమోనుకు',              ch:1,   t:'NT'},
+  {id:58,abbr:'Heb', en:'Hebrews',          te:'హెబ్రీయులకు',             ch:13,  t:'NT'},
+  {id:59,abbr:'Jas', en:'James',            te:'యాకోబు',                 ch:5,   t:'NT'},
+  {id:60,abbr:'1Pe', en:'1 Peter',          te:'1 పేతురు',               ch:5,   t:'NT'},
+  {id:61,abbr:'2Pe', en:'2 Peter',          te:'2 పేతురు',               ch:3,   t:'NT'},
+  {id:62,abbr:'1Jo', en:'1 John',           te:'1 యోహాను',               ch:5,   t:'NT'},
+  {id:63,abbr:'2Jo', en:'2 John',           te:'2 యోహాను',               ch:1,   t:'NT'},
+  {id:64,abbr:'3Jo', en:'3 John',           te:'3 యోహాను',               ch:1,   t:'NT'},
+  {id:65,abbr:'Jud', en:'Jude',             te:'యూదా',                  ch:1,   t:'NT'},
+  {id:66,abbr:'Rev', en:'Revelation',       te:'ప్రకటన గ్రంథము',          ch:22,  t:'NT'},
+];
+const ABBR_MAP = Object.fromEntries(BOOKS.map(b=>[b.abbr,b]));
+const BOLLS_ID = {Gen:1,Exo:2,Lev:3,Num:4,Deu:5,Jos:6,Jdg:7,Rut:8,'1Sa':9,'2Sa':10,'1Ki':11,'2Ki':12,'1Ch':13,'2Ch':14,Ezr:15,Neh:16,Est:17,Job:18,Psa:19,Pro:20,Ecc:21,Sol:22,Isa:23,Jer:24,Lam:25,Ezk:26,Dan:27,Hos:28,Joe:29,Amo:30,Oba:31,Jon:32,Mic:33,Nah:34,Hab:35,Zep:36,Hag:37,Zec:38,Mal:39,Mat:40,Mar:41,Luk:42,Joh:43,Act:44,Rom:45,'1Co':46,'2Co':47,Gal:48,Eph:49,Php:50,Col:51,'1Th':52,'2Th':53,'1Ti':54,'2Ti':55,Tit:56,Phm:57,Heb:58,Jas:59,'1Pe':60,'2Pe':61,'1Jo':62,'2Jo':63,'3Jo':64,Jud:65,Rev:66};
+const API_NAME = {Gen:'genesis',Exo:'exodus',Lev:'leviticus',Num:'numbers',Deu:'deuteronomy',Jos:'joshua',Jdg:'judges',Rut:'ruth','1Sa':'1+samuel','2Sa':'2+samuel','1Ki':'1+kings','2Ki':'2+kings','1Ch':'1+chronicles','2Ch':'2+chronicles',Ezr:'ezra',Neh:'nehemiah',Est:'esther',Job:'job',Psa:'psalms',Pro:'proverbs',Ecc:'ecclesiastes',Sol:'song+of+solomon',Isa:'isaiah',Jer:'jeremiah',Lam:'lamentations',Ezk:'ezekiel',Dan:'daniel',Hos:'hosea',Joe:'joel',Amo:'amos',Oba:'obadiah',Jon:'jonah',Mic:'micah',Nah:'nahum',Hab:'habakkuk',Zep:'zephaniah',Hag:'haggai',Zec:'zechariah',Mal:'malachi',Mat:'matthew',Mar:'mark',Luk:'luke',Joh:'john',Act:'acts',Rom:'romans','1Co':'1+corinthians','2Co':'2+corinthians',Gal:'galatians',Eph:'ephesians',Php:'philippians',Col:'colossians','1Th':'1+thessalonians','2Th':'2+thessalonians','1Ti':'1+timothy','2Ti':'2+timothy',Tit:'titus',Phm:'philemon',Heb:'hebrews',Jas:'james','1Pe':'1+peter','2Pe':'2+peter','1Jo':'1+john','2Jo':'2+john','3Jo':'3+john',Jud:'jude',Rev:'revelation'};
+const XREFS = {
+  'Gen.1.1': [{r:'John 1:1',te:'యోహాను 1:1',abbr:'Joh',c:1,v:1},{r:'Heb 11:3',te:'హెబ్రీ 11:3',abbr:'Heb',c:11,v:3}],
+  'Gen.1.3': [{r:'2 Cor 4:6',te:'2కొరింథీ 4:6',abbr:'2Co',c:4,v:6}],
+  'Gen.1.26':[{r:'Col 1:15',te:'కొలొస్సయ 1:15',abbr:'Col',c:1,v:15}],
+  'Gen.2.7': [{r:'1 Cor 15:45',te:'1కొరింథీ 15:45',abbr:'1Co',c:15,v:45}],
+  'Gen.2.24':[{r:'Matt 19:5',te:'మత్తయి 19:5',abbr:'Mat',c:19,v:5},{r:'Eph 5:31',te:'ఎఫె 5:31',abbr:'Eph',c:5,v:31}],
+  'Gen.3.15':[{r:'Gal 4:4',te:'గల 4:4',abbr:'Gal',c:4,v:4},{r:'Rev 12:17',te:'ప్రక 12:17',abbr:'Rev',c:12,v:17}],
+  'Gen.12.3':[{r:'Gal 3:8',te:'గల 3:8',abbr:'Gal',c:3,v:8}],
+  'Gen.15.6':[{r:'Rom 4:3',te:'రోమా 4:3',abbr:'Rom',c:4,v:3},{r:'Gal 3:6',te:'గల 3:6',abbr:'Gal',c:3,v:6}],
+  'Exo.12.46':[{r:'John 19:36',te:'యోహాను 19:36',abbr:'Joh',c:19,v:36}],
+  'Psa.22.1': [{r:'Matt 27:46',te:'మత్తయి 27:46',abbr:'Mat',c:27,v:46},{r:'Mark 15:34',te:'మార్కు 15:34',abbr:'Mar',c:15,v:34}],
+  'Psa.22.18':[{r:'John 19:24',te:'యోహాను 19:24',abbr:'Joh',c:19,v:24}],
+  'Psa.23.1': [{r:'John 10:11',te:'యోహాను 10:11',abbr:'Joh',c:10,v:11},{r:'Heb 13:20',te:'హెబ్రీ 13:20',abbr:'Heb',c:13,v:20}],
+  'Psa.110.1':[{r:'Matt 22:44',te:'మత్తయి 22:44',abbr:'Mat',c:22,v:44},{r:'Acts 2:34',te:'అపో 2:34',abbr:'Act',c:2,v:34},{r:'Heb 1:13',te:'హెబ్రీ 1:13',abbr:'Heb',c:1,v:13}],
+  'Isa.7.14': [{r:'Matt 1:23',te:'మత్తయి 1:23',abbr:'Mat',c:1,v:23}],
+  'Isa.9.6':  [{r:'Luke 2:11',te:'లూకా 2:11',abbr:'Luk',c:2,v:11}],
+  'Isa.40.3': [{r:'Matt 3:3',te:'మత్తయి 3:3',abbr:'Mat',c:3,v:3},{r:'John 1:23',te:'యోహాను 1:23',abbr:'Joh',c:1,v:23}],
+  'Isa.53.4': [{r:'Matt 8:17',te:'మత్తయి 8:17',abbr:'Mat',c:8,v:17}],
+  'Isa.53.5': [{r:'Rom 5:8',te:'రోమా 5:8',abbr:'Rom',c:5,v:8},{r:'1 Cor 15:3',te:'1కొరింథీ 15:3',abbr:'1Co',c:15,v:3}],
+  'Isa.61.1': [{r:'Luke 4:18',te:'లూకా 4:18',abbr:'Luk',c:4,v:18}],
+  'Jer.31.31':[{r:'Heb 8:8',te:'హెబ్రీ 8:8',abbr:'Heb',c:8,v:8},{r:'Luke 22:20',te:'లూకా 22:20',abbr:'Luk',c:22,v:20}],
+  'Mic.5.2':  [{r:'Matt 2:6',te:'మత్తయి 2:6',abbr:'Mat',c:2,v:6}],
+  'Zec.9.9':  [{r:'Matt 21:5',te:'మత్తయి 21:5',abbr:'Mat',c:21,v:5},{r:'John 12:15',te:'యోహాను 12:15',abbr:'Joh',c:12,v:15}],
+  'Mal.3.1':  [{r:'Matt 11:10',te:'మత్తయి 11:10',abbr:'Mat',c:11,v:10}],
+  'Mat.1.23': [{r:'Isa 7:14',te:'యెషయా 7:14',abbr:'Isa',c:7,v:14}],
+  'Mat.3.3':  [{r:'Isa 40:3',te:'యెషయా 40:3',abbr:'Isa',c:40,v:3}],
+  'Mat.4.4':  [{r:'Deut 8:3',te:'ద్వితీ 8:3',abbr:'Deu',c:8,v:3}],
+  'Mat.21.5': [{r:'Zec 9:9',te:'జెకర్యా 9:9',abbr:'Zec',c:9,v:9}],
+  'Mat.27.46':[{r:'Psa 22:1',te:'కీర్తన 22:1',abbr:'Psa',c:22,v:1}],
+  'Joh.1.1':  [{r:'Gen 1:1',te:'ఆది 1:1',abbr:'Gen',c:1,v:1},{r:'Col 1:17',te:'కొలొస్సయ 1:17',abbr:'Col',c:1,v:17}],
+  'Joh.3.16': [{r:'Rom 5:8',te:'రోమా 5:8',abbr:'Rom',c:5,v:8},{r:'1 John 4:9',te:'1యోహాను 4:9',abbr:'1Jo',c:4,v:9},{r:'Isa 53:5',te:'యెషయా 53:5',abbr:'Isa',c:53,v:5}],
+  'Joh.10.11':[{r:'Psa 23:1',te:'కీర్తన 23:1',abbr:'Psa',c:23,v:1}],
+  'Joh.19.24':[{r:'Psa 22:18',te:'కీర్తన 22:18',abbr:'Psa',c:22,v:18}],
+  'Rom.3.23': [{r:'Psa 14:3',te:'కీర్తన 14:3',abbr:'Psa',c:14,v:3},{r:'Isa 64:6',te:'యెషయా 64:6',abbr:'Isa',c:64,v:6}],
+  'Rom.5.8':  [{r:'John 3:16',te:'యోహాను 3:16',abbr:'Joh',c:3,v:16},{r:'Isa 53:5',te:'యెషయా 53:5',abbr:'Isa',c:53,v:5}],
+  'Rom.8.28': [{r:'Jer 29:11',te:'యిర్మియా 29:11',abbr:'Jer',c:29,v:11}],
+  '1Co.15.45':[{r:'Gen 2:7',te:'ఆది 2:7',abbr:'Gen',c:2,v:7}],
+  'Heb.8.8':  [{r:'Jer 31:31',te:'యిర్మి 31:31',abbr:'Jer',c:31,v:31}],
+};
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let state = {
+  abbr: 'Joh', chapter: 3,
+  darkMode: false, fontScale: 1,
+  bookmarks: {}, highlights: {},
+  cache: {},
+};
+let xrefTarget = null;
+let hlTarget = null;
+let sidebarOpen = true;
+
+// ═══════════════════════════════════════════════
+// PERSIST
+// ═══════════════════════════════════════════════
+function saveState(){
+  try{
+    localStorage.setItem('vkm2',JSON.stringify({
+      abbr:state.abbr,chapter:state.chapter,
+      darkMode:state.darkMode,fontScale:state.fontScale,
+      bookmarks:state.bookmarks,highlights:state.highlights,
+    }));
+  }catch(e){}
+}
+function loadState(){
+  try{
+    const raw=localStorage.getItem('vkm2');
+    if(raw){const s=JSON.parse(raw);Object.assign(state,s);}
+    // also load cache
+    for(let i=0;i<localStorage.length;i++){
+      const k=localStorage.key(i);
+      if(k&&k.startsWith('vkm_ch_')){
+        try{state.cache[k.slice(7)]=JSON.parse(localStorage.getItem(k));}catch{}
+      }
+    }
+  }catch(e){}
+}
+function cacheChapter(abbr,ch,data){
+  const key=`${abbr}_${ch}`;
+  state.cache[key]=data;
+  try{localStorage.setItem('vkm_ch_'+key,JSON.stringify(data));}catch{}
+}
+function getCached(abbr,ch){return state.cache[`${abbr}_${ch}`]||null;}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+window.addEventListener('DOMContentLoaded',()=>{
+  loadState();
+  buildBookSelector();
+  buildSidebar();
+  applyTheme();
+  applyFontScale();
+  updateBookmarks();
+  loadChapter();
+
+  // Responsive sidebar
+  if(window.innerWidth<760){sidebarOpen=false;document.getElementById('sidebar').classList.add('collapsed');}
+});
+
+function buildBookSelector(){
+  const sel=document.getElementById('book-sel');
+  let curT='';
+  BOOKS.forEach(b=>{
+    if(b.t!==curT){
+      const og=document.createElement('optgroup');
+      og.label=b.t==='OT'?'Old Testament · పాత నిబంధన':'New Testament · క్రొత్త నిబంధన';
+      sel.appendChild(og);curT=b.t;
+    }
+    const opt=document.createElement('option');
+    opt.value=b.abbr;
+    opt.textContent=`${b.en} · ${b.te}`;
+    if(b.abbr===state.abbr)opt.selected=true;
+    sel.lastChild.appendChild(opt);
+  });
+  buildChapterSelector();
+}
+function buildChapterSelector(){
+  const book=ABBR_MAP[state.abbr];
+  const sel=document.getElementById('ch-sel');
+  sel.innerHTML='';
+  for(let i=1;i<=book.ch;i++){
+    const opt=document.createElement('option');
+    opt.value=i;opt.textContent='Ch '+i;
+    if(i===state.chapter)opt.selected=true;
+    sel.appendChild(opt);
+  }
+}
+function buildSidebar(){
+  const list=document.getElementById('book-list');
+  list.innerHTML='';
+  let curT='';
+  BOOKS.forEach(b=>{
+    if(b.t!==curT){
+      const lbl=document.createElement('div');
+      lbl.className='testament-label';
+      lbl.textContent=b.t==='OT'?'📜 Old Testament · పాత నిబంధన':'✝️ New Testament · క్రొత్త నిబంధన';
+      list.appendChild(lbl);curT=b.t;
+    }
+    const item=document.createElement('div');
+    item.className='book-item'+(b.abbr===state.abbr?' active':'');
+    item.id='si-'+b.abbr;
+    item.innerHTML=`<div><div class="book-en">${b.en}</div><div class="book-te">${b.te}</div></div><div class="book-ch">${b.ch}</div>`;
+    item.onclick=()=>{
+      state.abbr=b.abbr;state.chapter=1;
+      syncSelectors();loadChapter();
+      document.querySelectorAll('.book-item').forEach(x=>x.classList.remove('active'));
+      item.classList.add('active');
+      if(window.innerWidth<760)toggleSidebar();
+    };
+    list.appendChild(item);
+  });
+}
+
+function syncSelectors(){
+  document.getElementById('book-sel').value=state.abbr;
+  buildChapterSelector();
+}
+
+function onBookChange(){
+  state.abbr=document.getElementById('book-sel').value;
+  state.chapter=1;
+  buildChapterSelector();
+  document.querySelectorAll('.book-item').forEach(x=>x.classList.remove('active'));
+  const si=document.getElementById('si-'+state.abbr);
+  if(si){si.classList.add('active');si.scrollIntoView({block:'nearest'});}
+  loadChapter();
+}
+function onChapterChange(){
+  state.chapter=parseInt(document.getElementById('ch-sel').value);
+  loadChapter();
+}
+
+// ═══════════════════════════════════════════════
+// LOAD CHAPTER
+// ═══════════════════════════════════════════════
+async function loadChapter(){
+  const {abbr,chapter}=state;
+  const book=ABBR_MAP[abbr];
+
+  // Header
+  document.getElementById('h-en').textContent=book.en;
+  document.getElementById('h-te').textContent=book.te;
+  document.getElementById('h-ch').textContent='Chapter '+chapter;
+  document.getElementById('nav-label').textContent=`${book.abbr} · ${chapter} / ${book.ch}`;
+  document.title=`${book.en} ${chapter} · వాక్యం`;
+
+  document.getElementById('verses').innerHTML='';
+  document.getElementById('ch-nav').style.display='none';
+  document.getElementById('error-state').classList.remove('show');
+  document.getElementById('loading').classList.add('show');
+  document.getElementById('loading-text').textContent=`Loading ${book.en} ${chapter}…`;
+
+  // Check cache
+  const cached=getCached(abbr,chapter);
+  if(cached){renderVerses(cached);return;}
+
+  try{
+    const [enMap,teMap]=await Promise.all([fetchEN(abbr,chapter),fetchTE(abbr,chapter)]);
+    const nums=[...new Set([...Object.keys(enMap),...Object.keys(teMap)].map(Number))].sort((a,b)=>a-b);
+    const data=nums.map(n=>({v:n,en:enMap[n]||'',te:teMap[n]||''}));
+    cacheChapter(abbr,chapter,data);
+    renderVerses(data);
+  }catch(e){
+    document.getElementById('loading').classList.remove('show');
+    document.getElementById('error-state').classList.add('show');
+    document.getElementById('error-msg').textContent='Could not load. Check your internet connection.';
+  }
+
+  saveState();
+}
+
+async function fetchEN(abbr,chapter){
+  const url=`https://bible-api.com/${API_NAME[abbr]||abbr.toLowerCase()}+${chapter}?translation=kjv`;
+  const r=await fetch(url);if(!r.ok)throw new Error('EN '+r.status);
+  const d=await r.json();
+  const m={};(d.verses||[]).forEach(v=>{m[v.verse]=v.text.replace(/\n/g,' ').trim();});
+  return m;
+}
+async function fetchTE(abbr,chapter){
+  const bid=BOLLS_ID[abbr];if(!bid)return{};
+  const url=`https://bolls.life/get-chapter/BSI/${bid}/${chapter}/`;
+  const r=await fetch(url);if(!r.ok)throw new Error('TE '+r.status);
+  const d=await r.json();
+  const m={};(d||[]).forEach(v=>{m[v.verse]=(v.text||'').trim();});
+  return m;
+}
+
+function renderVerses(data){
+  document.getElementById('loading').classList.remove('show');
+  const container=document.getElementById('verses');
+  const {abbr,chapter}=state;
+  const delay=ms=>new Promise(r=>setTimeout(r,ms));
+
+  data.forEach((row,i)=>{
+    const key=`${abbr}.${chapter}.${row.v}`;
+    const xrefs=XREFS[key]||[];
+    const bm=state.bookmarks[key];
+    const hl=state.highlights[key]||'';
+
+    const card=document.createElement('div');
+    card.className=`vcard${xrefs.length?' has-xref':''}${bm?' bookmarked':''}${hl?' hl-'+hl:''}`;
+    card.id='v'+row.v;
+    card.style.animationDelay=(i*30)+'ms';
+
+    card.innerHTML=`
+      <div class="en-row">
+        <span class="vnum">${row.v}</span>
+        <span class="en-text">${escHtml(row.en)}</span>
+        <div class="vactions">
+          <button class="vact${bm?' active':''}" title="Bookmark" onclick="toggleBM('${key}',${row.v},event)">
+            <svg viewBox="0 0 24 24"><path d="M17 3H7c-1.1 0-2 .9-2 2v16l7-3 7 3V5c0-1.1-.9-2-2-2z"/></svg>
+          </button>
+          <button class="vact${hl?' active':''}" title="Highlight" onclick="openHL('${key}',${row.v},event)">
+            <svg viewBox="0 0 24 24"><path d="M7 14l-3 3 1.5 1.5L7 17l1.5 1.5L10 17l-3-3zm7.5-7L12 4.5l-7 7 2.5 2.5 7-7zM14 13l-2-2-5 5 2 2 5-5z"/></svg>
+          </button>
+          <button class="vact" title="Share" onclick="shareVerse(${row.v},event)">
+            <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92s2.92-1.31 2.92-2.92S19.61 16.08 18 16.08z"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="te-row">
+        <span class="te-label">తె</span>
+        <span class="te-text">${escHtml(row.te)}</span>
+      </div>
+      ${xrefs.length?`
+      <div class="xref-row">
+        <span class="xref-lbl">Refs</span>
+        ${xrefs.map(x=>`<span class="xref-tag" onclick="openXref(event,'${x.r}','${x.te}','${x.abbr}',${x.c},${x.v})">${x.r}</span>`).join('')}
+      </div>`:''}
+    `;
+    container.appendChild(card);
+  });
+
+  // Store data for bookmarking
+  container._data=data;
+
+  document.getElementById('ch-nav').style.display='flex';
+  window.scrollTo({top:0,behavior:'smooth'});
+  document.getElementById('reader').scrollTo({top:0,behavior:'smooth'});
+}
+
+function navigate(dir){
+  const book=ABBR_MAP[state.abbr];
+  const next=state.chapter+dir;
+  if(next>=1&&next<=book.ch){state.chapter=next;}
+  else if(dir===1){const idx=BOOKS.indexOf(book);if(idx<BOOKS.length-1){state.abbr=BOOKS[idx+1].abbr;state.chapter=1;}}
+  else{const idx=BOOKS.indexOf(book);if(idx>0){state.abbr=BOOKS[idx-1].abbr;state.chapter=BOOKS[idx-1].ch;}}
+  syncSelectors();
+  document.querySelectorAll('.book-item').forEach(x=>x.classList.remove('active'));
+  const si=document.getElementById('si-'+state.abbr);
+  if(si)si.classList.add('active');
+  loadChapter();
+}
+
+// ═══════════════════════════════════════════════
+// BOOKMARKS
+// ═══════════════════════════════════════════════
+function toggleBM(key,vNum,e){
+  e.stopPropagation();
+  const card=document.getElementById('v'+vNum);
+  const btn=e.currentTarget;
+  if(state.bookmarks[key]){
+    delete state.bookmarks[key];
+    card.classList.remove('bookmarked');
+    btn.classList.remove('active');
+  }else{
+    const data=document.getElementById('verses')._data||[];
+    const row=data.find(r=>r.v===vNum);
+    const book=ABBR_MAP[state.abbr];
+    state.bookmarks[key]={
+      key,abbr:state.abbr,chapter:state.chapter,verse:vNum,
+      bookEn:book.en,bookTe:book.te,
+      en:row?.en||'',te:row?.te||'',
+      saved:Date.now()
+    };
+    card.classList.add('bookmarked');
+    btn.classList.add('active');
+  }
+  updateBookmarks();saveState();
+}
+function updateBookmarks(){
+  const bms=Object.values(state.bookmarks);
+  const badge=document.getElementById('bm-badge');
+  badge.style.display=bms.length?'block':'none';
+  const list=document.getElementById('bm-list');
+  if(!bms.length){list.innerHTML='<div class="bm-empty">No bookmarks yet.<br>Tap 🔖 on any verse.</div>';return;}
+  list.innerHTML=bms.sort((a,b)=>b.saved-a.saved).map(bm=>`
+    <div class="bm-item" onclick="goToBM('${bm.abbr}',${bm.chapter})">
+      <button class="bm-del" onclick="deleteBM(event,'${bm.key}')">🗑</button>
+      <div class="bm-ref">${bm.bookEn} ${bm.chapter}:${bm.verse}</div>
+      <div class="bm-ref-te">${bm.bookTe}</div>
+      <div class="bm-text">${escHtml(bm.en)}</div>
+      <div class="bm-date">${new Date(bm.saved).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</div>
+    </div>
+  `).join('');
+}
+function deleteBM(e,key){e.stopPropagation();delete state.bookmarks[key];updateBookmarks();saveState();}
+function goToBM(abbr,chapter){state.abbr=abbr;state.chapter=chapter;syncSelectors();loadChapter();toggleBookmarks();}
+
+// ═══════════════════════════════════════════════
+// HIGHLIGHTS
+// ═══════════════════════════════════════════════
+function openHL(key,vNum,e){e.stopPropagation();hlTarget={key,vNum};document.getElementById('hl-modal').classList.add('open');}
+function closeHl(){document.getElementById('hl-modal').classList.remove('open');hlTarget=null;}
+function applyHl(color){
+  if(!hlTarget)return;
+  const {key,vNum}=hlTarget;
+  const card=document.getElementById('v'+vNum);
+  ['yellow','green','blue','pink'].forEach(c=>card.classList.remove('hl-'+c));
+  if(color){state.highlights[key]=color;card.classList.add('hl-'+color);}
+  else{delete state.highlights[key];}
+  closeHl();saveState();
+}
+
+// ═══════════════════════════════════════════════
+// CROSS-REFS
+// ═══════════════════════════════════════════════
+async function openXref(e,ref,teLabel,abbr,chapter,verse){
+  e.stopPropagation();
+  xrefTarget={abbr,chapter,verse};
+  const modal=document.getElementById('xref-modal');
+  document.getElementById('xr-title').textContent=ref;
+  document.getElementById('xr-te-label').textContent=teLabel;
+  document.getElementById('xr-en').innerHTML='<span class="spinner" style="width:18px;height:18px;border-width:2px;display:inline-block;vertical-align:middle"></span>';
+  document.getElementById('xr-te').textContent='';
+  modal.classList.add('open');
+  // Fetch verse
+  try{
+    const cached=getCached(abbr,chapter);
+    if(cached){
+      const row=cached.find(r=>r.v===verse);
+      if(row){document.getElementById('xr-en').textContent=row.en;document.getElementById('xr-te').textContent=row.te;return;}
+    }
+    const [enMap,teMap]=await Promise.all([fetchEN(abbr,chapter),fetchTE(abbr,chapter)]);
+    const nums=[...new Set([...Object.keys(enMap),...Object.keys(teMap)].map(Number))].sort((a,b)=>a-b);
+    const data=nums.map(n=>({v:n,en:enMap[n]||'',te:teMap[n]||''}));
+    cacheChapter(abbr,chapter,data);
+    const row=data.find(r=>r.v===verse);
+    document.getElementById('xr-en').textContent=row?.en||'';
+    document.getElementById('xr-te').textContent=row?.te||'';
+  }catch(err){document.getElementById('xr-en').textContent='(Could not load verse)';}
+}
+function closeXref(){document.getElementById('xref-modal').classList.remove('open');xrefTarget=null;}
+function navigateToXref(){if(!xrefTarget)return;state.abbr=xrefTarget.abbr;state.chapter=xrefTarget.chapter;syncSelectors();document.querySelectorAll('.book-item').forEach(x=>x.classList.remove('active'));const si=document.getElementById('si-'+state.abbr);if(si)si.classList.add('active');closeXref();loadChapter();}
+
+// ═══════════════════════════════════════════════
+// SHARE
+// ═══════════════════════════════════════════════
+function shareVerse(vNum,e){
+  e.stopPropagation();
+  const data=document.getElementById('verses')._data||[];
+  const row=data.find(r=>r.v===vNum);
+  if(!row)return;
+  const book=ABBR_MAP[state.abbr];
+  const text=`${book.en} ${state.chapter}:${vNum}\n\n${row.en}\n\n${book.te} ${state.chapter}:${vNum}\n${row.te}\n\n— వాక్యం Bible`;
+  if(navigator.share){navigator.share({title:`${book.en} ${state.chapter}:${vNum}`,text});}
+  else{navigator.clipboard?.writeText(text).then(()=>alert('Copied to clipboard! 📋'));}
+}
+
+// ═══════════════════════════════════════════════
+// SEARCH
+// ═══════════════════════════════════════════════
+function toggleSearch(){
+  const wrap=document.getElementById('search-wrap');
+  const open=wrap.classList.toggle('open');
+  if(open)document.getElementById('search-input').focus();
+  else closeSearchResults();
+}
+function doSearch(){
+  const q=document.getElementById('search-input').value.trim();
+  if(!q)return;
+  const ql=q.toLowerCase();
+  const results=[];
+  for(const [key,data] of Object.entries(state.cache)){
+    const [abbr,ch]=key.split('_');
+    const book=ABBR_MAP[abbr];if(!book)continue;
+    for(const row of data){
+      if(row.en.toLowerCase().includes(ql)||row.te.includes(q)){
+        results.push({abbr,chapter:parseInt(ch),verse:row.v,bookEn:book.en,bookTe:book.te,en:row.en,te:row.te});
+        if(results.length>=80)break;
+      }
+    }
+    if(results.length>=80)break;
+  }
+  const panel=document.getElementById('search-results');
+  const list=document.getElementById('sr-list');
+  document.getElementById('sr-title').textContent=`"${q}" — ${results.length} result${results.length!==1?'s':''}`;
+  if(!results.length){list.innerHTML=`<div class="sr-empty">No results for "${q}".<br>More chapters will be searchable as you read them.</div>`;}
+  else{
+    list.innerHTML=results.map(r=>`
+      <div class="sr-card" onclick="goToResult('${r.abbr}',${r.chapter})">
+        <div class="sr-ref">${r.bookEn} ${r.chapter}:${r.verse} · ${r.bookTe}</div>
+        <div class="sr-en">${hl(r.en,q)}</div>
+        ${r.te?`<div class="sr-te">${hl(r.te,q)}</div>`:''}
+      </div>
+    `).join('');
+  }
+  panel.classList.add('open');
+}
+function hl(text,q){
+  const idx=text.toLowerCase().indexOf(q.toLowerCase());
+  if(idx<0)return escHtml(text);
+  return escHtml(text.substring(0,idx))+'<mark>'+escHtml(text.substring(idx,idx+q.length))+'</mark>'+escHtml(text.substring(idx+q.length));
+}
+function closeSearchResults(){document.getElementById('search-results').classList.remove('open');}
+function goToResult(abbr,chapter){state.abbr=abbr;state.chapter=chapter;syncSelectors();loadChapter();closeSearchResults();}
+
+// ═══════════════════════════════════════════════
+// PANELS
+// ═══════════════════════════════════════════════
+function toggleSidebar(){
+  const sb=document.getElementById('sidebar');
+  if(window.innerWidth<760){sb.classList.toggle('mobile-open');sb.classList.remove('collapsed');}
+  else{sidebarOpen=!sidebarOpen;sb.classList.toggle('collapsed',!sidebarOpen);}
+}
+function toggleBookmarks(){document.getElementById('bm-panel').classList.toggle('open');document.getElementById('settings-panel').classList.remove('open');}
+function toggleSettings(){document.getElementById('settings-panel').classList.toggle('open');document.getElementById('bm-panel').classList.remove('open');}
+
+// ═══════════════════════════════════════════════
+// THEME & FONTS
+// ═══════════════════════════════════════════════
+function toggleDark(){
+  state.darkMode=!state.darkMode;
+  applyTheme();saveState();
+}
+function applyTheme(){
+  document.documentElement.setAttribute('data-dark',state.darkMode?'1':'0');
+  document.getElementById('dark-toggle').classList.toggle('on',state.darkMode);
+  // fix ::after background on ch-header
+  document.getElementById('ch-header').style.setProperty('--parch',state.darkMode?'#0e0b07':'#f7f1e4');
+}
+function setFS(scale){
+  state.fontScale=scale;
+  applyFontScale();
+  document.querySelectorAll('.fs-btn').forEach(b=>{
+    b.classList.toggle('active',parseFloat(b.dataset.scale)===scale);
+  });
+  saveState();
+}
+function applyFontScale(){
+  document.documentElement.style.setProperty('--fs',state.fontScale);
+  document.querySelectorAll('.fs-btn').forEach(b=>{
+    b.classList.toggle('active',parseFloat(b.dataset.scale)===state.fontScale);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// UTILS
+// ═══════════════════════════════════════════════
+function escHtml(s){
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// Close panels on outside click
+document.addEventListener('click',e=>{
+  const bmPanel=document.getElementById('bm-panel');
+  const setPanel=document.getElementById('settings-panel');
+  if(bmPanel.classList.contains('open')&&!bmPanel.contains(e.target)&&!document.getElementById('bm-btn').contains(e.target))bmPanel.classList.remove('open');
+  if(setPanel.classList.contains('open')&&!setPanel.contains(e.target)&&!document.getElementById('settings-btn').contains(e.target))setPanel.classList.remove('open');
+});
+</script>
+</body>
+</html>
